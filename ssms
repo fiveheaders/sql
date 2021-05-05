@@ -1,3 +1,30 @@
-1. NF = Alle Attributwerte atomar
-2. NF = Alle NSA hängen von gesamten Primärschlüssel ab
-3. NF = Alle NSA sind voneinander unabhängig
+INSERT INTO tblBenutzer (BenNr, B_Name, B_Vorname, B_Ort, GebDatum)
+VALUES (420, 'Hirsch', 'Harry', 'Ort', '06.04.1998')
+
+UPDATE tblBenutzer
+SET B_Ort = 'Luzern'
+WHERE B_Name = 'Braun' AND B_Vorname = 'Jens'
+
+SELECT DISTINCT tblModul.ModulName, tblBenutzer.*
+FROM tblBenutzer 
+INNER JOIN tblhat_Recht_an
+ON tblBenutzer.BenNr = tblhat_Recht_an.F_ID_BenNr 
+INNER JOIN tblModul 
+ON tblhat_Recht_an.F_ID_ModulNr = tblModul.ModulNr 
+ORDER BY dbo.tblModul.ModulName
+
+SELECT * FROM tblBenutzer
+WHERE B_Name LIKE 'M%'
+
+SELECT tblBenutzer.*, tblRecht.Recht 
+FROM tblBenutzer
+INNER JOIN tblhat_Recht_an
+ON tblBenutzer.BenNr = tblhat_Recht_an.F_ID_BenNr 
+INNER JOIN tblModul 
+ON tblhat_Recht_an.F_ID_ModulNr = tblModul.ModulNr 
+INNER JOIN tblRecht
+ON tblRecht.RechtNr = tblhat_Recht_an.F_ID_RechtNr
+WHERE tblModul.ModulName = 'Kursverwaltung'
+
+DELETE tblRecht
+WHERE RechtNr = 3
